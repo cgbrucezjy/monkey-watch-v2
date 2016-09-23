@@ -1,0 +1,16 @@
+    <youtube width="600" height="480" videoid="{{yt.videoid}}"></youtube> 
+
+    <input id="progressBar" ng-model="progress" type='range' defaultValue="0" value="0" min="0" max="100" step="0.1" ng-change="seek(progress)">  
+    <br />
+    <!--Width:<input type="text" ng-model="yt.width">
+    Height:<input type="text" ng-model="yt.height">-->
+    Videoid:<input type="text" ng-model="yt.videoid">
+    <button ng-click="sendControlEvent(YT_event.loadVideo)">Load new Video</button>
+    <br />
+
+    <button ng-click="restart()">Play From Start</button>
+    <button ng-click="play()">Play</button>
+    <button ng-click="pause()">Pause</button>
+    <button ng-click="sendControlEvent(YT_event.STOP)">Stop</button>
+
+    <p>Player status is: {{yt.playerStatus}}</p>
