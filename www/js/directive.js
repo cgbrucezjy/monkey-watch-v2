@@ -1,5 +1,5 @@
 angular.module('directives', [])
-.directive('youtube', function($window, YT_event,$interval,$timeout) {
+.directive('youtube', function($window, YT_event,$interval) {
   return {
     restrict: "E",
 
@@ -9,7 +9,7 @@ angular.module('directives', [])
       videoid: "@"
     },
 
-    template: '<div></div>',
+    template: '<div><p>Please try re-enter the url to the address bar</p></div>',
 
     link: function(scope, element, attrs, $rootScope) {
       var tag = document.createElement('script');
@@ -32,7 +32,7 @@ angular.module('directives', [])
             color: "white",
             iv_load_policy: 3,
             showinfo: 1,
-            controls: 1
+            controls: 0
           },
           
           height: scope.height,
@@ -95,19 +95,21 @@ angular.module('directives', [])
         });
       };      
 
+      scope.$on(YT_event.minScreen, function() {
+  
+        player.setSize(800, 600);
+      
+      });
 
-
-      scope.$watch('height + width', function(newValue, oldValue) {
-        if (newValue == oldValue) {
-          return;
-        }
-        
-        player.setSize(scope.width, scope.height);
+      scope.$on(YT_event.maxScreen, function() {
+  
+        player.setSize(window.innerWidth || document.body.clientWidth, window.innerHeight || document.body.clientHeight);
       
       });
    
      scope.$on(YT_event.loadVideo, function () {
-            player.cueVideoById(scope.videoid);
+          console.log(document.getElementById("vid").value);
+            player.cueVideoById(document.getElementById("vid").value);
       });
 
       scope.$on(YT_event.STOP, function () {
@@ -145,6 +147,8 @@ angular.module('directives', [])
   };
 })
 .constant('YT_event', {
+  minScreen:-5,
+  maxScreen:-4,
     seek:-3,
     loadVideo:-2,
   ENDED:            -1,

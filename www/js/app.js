@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('app', ['ui.router', 'homeController', 'ngAnimate', 'ui.bootstrap','directives'])
+	var app = angular.module('app', ['ui.router', 'homeController', 'firebase','ngAnimate', 'ui.bootstrap','directives'])
 
 	// define for requirejs loaded modules
 	define('app', [], function() { return app; });
@@ -52,7 +52,7 @@
 			return {
 				link: function(scope, element) {
 					var listener = function(event, toState) {
-						var title = 'Project Name';
+						var title = 'Monkey Watch';
 						if (toState.data && toState.data.pageTitle) title = toState.data.pageTitle + ' - ' + title;
 						$timeout(function() {
 							element.text(title);

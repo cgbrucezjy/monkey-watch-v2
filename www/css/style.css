@@ -1,12 +1,100 @@
+.main-panel {
+  margin-top: 5%;
+}
+.youtube-video {
+  position: absolute;
+  margin: auto;
+  left: 0px;
+  top: 0px;
+  z-index: -1;
+}
+.video {
+  position: relative;
+  height: 600px;
+  text-align: right;
+}
 #progressBar {
-  width: 600px;
   height: 6px;
   background-color: #444444;
   display: block;
   margin-top: 1px;
 }
-#progressBar div {
-  height: 100%;
-  width: 0;
-  background-color: #ffffff;
+.w-85,
+.w-15 {
+  box-sizing: border-box;
+  float: left;
+}
+.w-85 {
+  width: 85%;
+}
+.w-15 {
+  width: 15%;
+}
+.clr {
+  clear: both;
+}
+.chat-input-box {
+  background-color: #EFEFEF;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.chat-input-text {
+  width: 100%;
+}
+.chat-submit-button {
+  float: left;
+  width: 50%;
+}
+.chat-minimium-button {
+  float: right;
+  width: 50%;
+}
+.button-cont {
+  padding-left: 10px;
+}
+.movetxt {
+  color: white;
+  position: relative;
+  float: right;
+  -webkit-animation: moving 10s linear;
+  animation: moving 10s linear;
+  animation-fill-mode: forwards;
+}
+.max-txt {
+  color: white;
+  position: relative;
+  -webkit-animation: moving 10s linear;
+  animation: moving 10s linear;
+  animation-fill-mode: forwards;
+}
+@-webkit-keyframes moving {
+  0% {
+    margin-right: 0;
+  }
+  100% {
+    margin-right: 130%;
+  }
+}
+@keyframes moving {
+  0% {
+    margin-right: 0;
+  }
+  100% {
+    margin-right: 130%;
+  }
+}
+.video,
+.chat-input-box,
+#progressBar,
+.controls,
+.youtube-video {
+  margin: auto;
+  width: 800px;
+}
+.ng-hide {
+  /* this is just another form of hiding an element */
+  display: block!important;
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
 }
