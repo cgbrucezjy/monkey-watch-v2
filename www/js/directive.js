@@ -21,7 +21,8 @@ angular.module('directives', [])
       var stop;
 
         $window.onYouTubeIframeAPIReady = function() {
-          console.log(0);
+          console.log($window['YT']);
+          $window['YT'].loading=0;
           document.getElementById("progressBar").value=0;
         player = new YT.Player(element.children()[0], {
           playerVars: {

@@ -33,6 +33,10 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
 
 
   var ref = firebase.database().ref().child($scope.roomName);
+  ref.child('background').once('value',function(snap){
+    console.log(snap.val());
+    document.body.className =' '+snap.val();
+  });
 
   $scope.seek=function(seek){
     console.log(seek); 
@@ -124,6 +128,7 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
     video.style.left = '0px';
     video.style.top = '0px';
     video.style.width=document.body.clientWidth+"px";
+    video.style.height=document.body.clientHeight+"px";
     var progress = document.getElementById('progressBar');
     progress.style.position = "absolute";
     progress.style.left = '0px';
@@ -150,6 +155,7 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
     video.style.left = '';
     video.style.top = '';
     video.style.width=minWdith+"px";
+    video.style.height=minheight+"px";
     var progress = document.getElementById('progressBar');
     progress.style.position = "relative";
     progress.style.left = '';
@@ -180,6 +186,14 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
     console.log(vid);
     ref.update({"load":vid}); 
   };
+  $scope.goBack=function(){
+    var c=document.getElementsByTagName('script');
 
+    c[0].parentElement.removeChild(c[0]); 
+    c[0].parentElement.removeChild(c[0]); 
+        
+        
+    $state.go('home');
+  };
 
 });

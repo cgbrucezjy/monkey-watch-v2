@@ -1,5 +1,5 @@
 angular.module('homeController', [])
-	.controller('homeController', function($scope, $state,YT_event,$firebaseArray,$timeout,$mdDialog) {
+	.controller('homeController', function($scope, $state,YT_event,$firebaseArray,$timeout,$mdDialog,$templateCache) {
 
     $scope.createRoom=function(ev) {
     // Appending dialog to document.body to cover sidenav in docs app
@@ -44,7 +44,10 @@ $scope.enterRoomNum=function(tile){
     $scope.enterRoom(roomInfo);
 }
 $scope.enterRoom=function(roomInfo){
-    console.log(roomInfo);
+    
+    
+    // $templateCache.removeAll();
+    // console.log($templateCache.get("views/room.html"));
     ref.child(roomInfo.roomName).once("value", function(data) {
       if(data.exists())
       {
@@ -55,7 +58,7 @@ $scope.enterRoom=function(roomInfo){
           var ran=Math.floor((Math.random() * 15) + 1);
           var it=$scope.getRoomSetting(ran);
           console.log(' ',it);
-          ref.child(roomInfo.roomName).update({row:it.row,col:it.col,background:it.background,imgsrc:"http://img14.artimg.net/gallery/2014/1126/1416984594_105861.jpg"});
+          ref.child(roomInfo.roomName).update({row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"});
            $state.go("room",roomInfo);
       }
       

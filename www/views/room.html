@@ -1,4 +1,4 @@
-<div class="main-panel" >
+<div id='main-panel' class="main-panel" >
     <div id="video" class="video"  ng-keydown="minScreen($event)" tabindex="0">
         <h2 id="movetxt" ng-class="min_text" ng-repeat="c in chat">{{c.$value}}</h2>
         <youtube class="youtube-video" width="800" height="580" videoid="{{yt.videoid}}" ></youtube> 
@@ -31,6 +31,7 @@
         <button ng-click="pause()">Pause</button>
         <button ng-click="sendControlEvent(YT_event.STOP)">Stop</button>
         <button ng-click="maxScreen()">Maximium</button>
+        <button ng-click="goBack()">back</button>
         <p>Player status is: {{yt.playerStatus}}</p>
     </div>
 </div>

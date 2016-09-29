@@ -1,5 +1,5 @@
 .main-panel {
-  margin-top: 5%;
+  z-index: -9999;
 }
 .youtube-video {
   position: absolute;
@@ -35,7 +35,7 @@
   clear: both;
 }
 .chat-input-box {
-  background-color: #EFEFEF;
+  background-color: rgba(0, 0, 0, 0);
   padding: 10px;
   box-sizing: border-box;
   margin-top: 10px !important;

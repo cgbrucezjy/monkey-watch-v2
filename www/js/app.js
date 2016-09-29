@@ -47,6 +47,7 @@
 				}
 			})
 			.state('room', {
+				cache: false,
 				url: "/room",
 				templateUrl: viewsPrefix + "room.html",
 				controller : "roomController",
