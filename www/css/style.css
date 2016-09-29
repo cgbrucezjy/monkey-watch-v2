@@ -6,10 +6,11 @@
   margin: auto;
   left: 0px;
   top: 0px;
-  z-index: -1;
+  z-index: -999;
 }
 .video {
   position: relative;
+  overflow: hidden;
   height: 600px;
   text-align: right;
 }
@@ -37,6 +38,8 @@
   background-color: #EFEFEF;
   padding: 10px;
   box-sizing: border-box;
+  margin-top: 10px !important;
+  border-radius: 2px;
 }
 .chat-input-text {
   width: 100%;
@@ -55,10 +58,13 @@
 .movetxt {
   color: white;
   position: relative;
+  white-space: nowrap;
   float: right;
+  clear: both;
   -webkit-animation: moving 10s linear;
   animation: moving 10s linear;
   animation-fill-mode: forwards;
+  z-index: -1;
 }
 .max-txt {
   color: white;
@@ -100,6 +106,7 @@
 }
 body {
   background-color: rgba(0, 0, 0, 0);
+  z-index: -9999;
 }
 .gridListdemoDynamicTiles md-icon {
   width: 50%;
@@ -211,4 +218,8 @@ body {
 .images {
   height: 50% !important;
   width: 50% !important;
+}
+.tcenter {
+  padding: 10px;
+  text-align: center;
 }
