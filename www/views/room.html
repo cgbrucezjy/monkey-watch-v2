@@ -1,0 +1,36 @@
+<div class="main-panel" >
+    <div id="video" class="video"  ng-keydown="minScreen($event)" tabindex="0">
+        <h2 id="movetxt" ng-class="min_text" ng-repeat="c in chat">{{c.$value}}</h2>
+        <youtube class="youtube-video" width="800" height="580" videoid="{{yt.videoid}}" ></youtube> 
+        
+    </div>
+    <input id="progressBar" ng-model="progress" type='range' defaultValue="0" value="0" min="0" max="100" step="0.1" ng-change="seek(progress)">  
+    <div id="chat" class="chat-input-box">
+            <div class="w-85">
+                <input  type="text" ng-keypress="sendMessageByEnter($event)" id="messageBox" ng-model="message" class="chat-input-text" name="message">    
+            </div>
+            <div class="w-15 button-cont">
+                <input type="submit" ng-click="sendMessage(message)" value="Send" class="chat-submit-button">
+                <button ng-click="minScreen()" ng-show="isMax" class="chat-minimium-button">Minimium</button>
+            </div>
+            <div class="clr"></div>
+        </div>
+    <div class="controls ng-hide" ng-hide="isMax" >
+        
+
+        <br />
+        <!--Width:<input type="text" ng-model="yt.width">
+        Height:<input type="text" ng-model="yt.height">-->
+    
+        Videoid:<input type="text" id="vid" ng-model="yt.videoid">
+        <button ng-click="loadVideo(yt.videoid)">Load new Video</button>
+        <br />
+
+        <button ng-click="restart()">Play From Start</button>
+        <button ng-click="play()">Play</button>
+        <button ng-click="pause()">Pause</button>
+        <button ng-click="sendControlEvent(YT_event.STOP)">Stop</button>
+        <button ng-click="maxScreen()">Maximium</button>
+        <p>Player status is: {{yt.playerStatus}}</p>
+    </div>
+</div>

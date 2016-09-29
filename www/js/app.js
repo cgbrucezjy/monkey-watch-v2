@@ -1,5 +1,5 @@
 (function() {
-	var app = angular.module('app', ['ui.router', 'homeController', 'firebase','ngAnimate', 'ui.bootstrap','directives'])
+	var app = angular.module('app', ['ui.router','ngMaterial', 'homeController','roomController', 'firebase','directives'])
 
 	// define for requirejs loaded modules
 	define('app', [], function() { return app; });
@@ -46,6 +46,20 @@
 					pageTitle: 'Home'
 				}
 			})
+			.state('room', {
+				url: "/room",
+				templateUrl: viewsPrefix + "room.html",
+				controller : "roomController",
+				data: {
+					pageTitle: 'Room'
+				},
+				params: {
+					'roomName': '',
+					'password':'',
+					'vid':''
+            	} 
+			})
+
 	})
 	.directive('updateTitle', ['$rootScope', '$timeout',
 		function($rootScope, $timeout) {

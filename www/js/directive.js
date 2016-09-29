@@ -9,7 +9,7 @@ angular.module('directives', [])
       videoid: "@"
     },
 
-    template: '<div><p>Please try re-enter the url to the address bar</p></div>',
+    template: '<div><p>Please try refresh first then re-enter the room</p></div>',
 
     link: function(scope, element, attrs, $rootScope) {
       var tag = document.createElement('script');
