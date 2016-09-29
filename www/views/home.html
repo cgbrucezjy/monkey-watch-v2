@@ -1,36 +1,72 @@
-<div class="main-panel" >
-    <div id="video" class="video"  ng-keydown="minScreen($event)" tabindex="0">
+<div class="container main-panel">
+    <div id="video" class="video" ng-keydown="minScreen($event)" tabindex="0">
         <h2 id="movetxt" ng-class="min_text" ng-repeat="c in chat">{{c.$value}}</h2>
-        <youtube class="youtube-video" width="800" height="580" videoid="{{yt.videoid}}" ></youtube> 
-        
+        <youtube class="youtube-video" width="800" height="580" videoid="{{yt.videoid}}"></youtube>
+
     </div>
-    <input id="progressBar" ng-model="progress" type='range' defaultValue="0" value="0" min="0" max="100" step="0.1" ng-change="seek(progress)">  
-    <div id="chat" class="chat-input-box">
-            <div class="w-85">
-                <input  type="text" ng-keypress="sendMessageByEnter($event)" id="messageBox" ng-model="message" class="chat-input-text" name="message">    
-            </div>
-            <div class="w-15 button-cont">
-                <input type="submit" ng-click="sendMessage(message)" value="Send" class="chat-submit-button">
-                <button ng-click="minScreen()" ng-show="isMax" class="chat-minimium-button">Minimium</button>
-            </div>
-            <div class="clr"></div>
+    <input id="progressBar" ng-model="progress" type='range' defaultValue="0" value="0" min="0" max="100" step="0.1" ng-change="seek(progress)">
+    <div id="chat" class="input-group chat-input-box">
+        <div class="w-85">
+            <input type="text" ng-keypress="sendMessageByEnter($event)" id="messageBox" ng-model="message" class="form-control chat-input-text" name="message">
         </div>
-    <div class="controls ng-hide" ng-hide="isMax" >
-        
+        <div class="w-15 button-cont">
+            <input type="submit" ng-click="sendMessage(message)" value="Send" class="btn btn-default chat-submit-button">
+            <button ng-click="minScreen()" ng-show="isMax" class="chat-minimium-button">Minimium</button>
+        </div>
+        <div class="clr"></div>
+    </div>
+    <div class="controls ng-hide" ng-hide="isMax">
+
 
         <br />
         <!--Width:<input type="text" ng-model="yt.width">
         Height:<input type="text" ng-model="yt.height">-->
-    
-        Videoid:<input type="text" id="vid" ng-model="yt.videoid">
-        <button ng-click="loadVideo(yt.videoid)">Load new Video</button>
-        <br />
+        <div class="row">
+            <div class="col-md-4">
+            <div class="input-group">
+<!--                <span class="input-group-addon" id="basic-addon2">Video ID:</span>-->
+                <input type="text" class="form-control" id="vid" ng-model="yt.videoid" placeholder="New Video ID">
+                <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Go!</button>
+      </span>
+            </div>
+            </div>
+<!--
+            <div class="col-md-4">
+            <button class="btn btn-default" ng-click="loadVideo(yt.videoid)">Load New Video</button>
+            </div>
+-->
+            
+<!--
+            Videoid:
+            <input class="form-control" type="text" id="vid" ng-model="yt.videoid">
+            <button class="btn btn-default" ng-click="loadVideo(yt.videoid)">Load new Video</button>
+-->
+        </div>
 
+        <div class="tcenter">
+            <a class="btn btn-default" ng-click="restart()"><i class="glyphicon glyphicon-repeat"></i>
+            restart</a>
+            <a ng-click="sendControlEvent(YT_event.STOP)" class="btn btn-default"><i class="glyphicon glyphicon-stop"></i>
+            stop</a>
+            <a ng-click="play()" class="btn btn-default"><i class="glyphicon glyphicon-play"></i>
+            play</a>
+            <a ng-click="pause()" class="btn btn-default"><i class="glyphicon glyphicon-pause"></i>
+            pause</a>
+            <a ng-click="maxScreen()" class="btn btn-default"><i class="glyphicon glyphicon-fullscreen"></i>
+            maxamize</a>
+        </div>
+        <div class="tcenter">
+            <p>Player status is: {{yt.playerStatus}}</p>
+        </div>
+       
+<!--
         <button ng-click="restart()">Play From Start</button>
         <button ng-click="play()">Play</button>
         <button ng-click="pause()">Pause</button>
         <button ng-click="sendControlEvent(YT_event.STOP)">Stop</button>
         <button ng-click="maxScreen()">Maximium</button>
         <p>Player status is: {{yt.playerStatus}}</p>
+-->
     </div>
 </div>
