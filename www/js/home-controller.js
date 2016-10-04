@@ -1,6 +1,6 @@
 angular.module('homeController', [])
 	.controller('homeController', function($scope, $state,YT_event,$firebaseArray,$timeout,$mdDialog,$templateCache) {
-
+        var ref = firebase.database().ref()
     $scope.createRoom=function(ev) {
     // Appending dialog to document.body to cover sidenav in docs app
     var confirm = $mdDialog.prompt()
@@ -37,10 +37,10 @@ angular.module('homeController', [])
      
     });
   };
-var ref = firebase.database().ref();
+
 $scope.enterRoomNum=function(tile){
-    console.log(tile);
-    var roomInfo={'roomName':tile.$id,'password':'',vid:tile.load};
+    console.log(tile.$id);
+    var roomInfo={'roomId':tile.$id,'roomName':tile.roomName,'password':'',vid:tile.load};
     $scope.enterRoom(roomInfo);
 }
 $scope.enterRoom=function(roomInfo){
@@ -48,18 +48,22 @@ $scope.enterRoom=function(roomInfo){
     
     // $templateCache.removeAll();
     // console.log($templateCache.get("views/room.html"));
-    ref.child(roomInfo.roomName).once("value", function(data) {
+    ref.child(roomInfo.roomId).once("value", function(data) {
       if(data.exists())
       {
-          $state.go('room',roomInfo);
+            $state.go('room',roomInfo);      
       }
       else
       {
           var ran=Math.floor((Math.random() * 15) + 1);
           var it=$scope.getRoomSetting(ran);
           console.log(' ',it);
-          ref.child(roomInfo.roomName).update({row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"});
-           $state.go("room",roomInfo);
+        $scope.tiles.$add({roomName:roomInfo.roomName,row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"}).then(function(ref) {
+            var id = ref.key;
+            roomInfo.roomName=id;
+            $state.go("room",roomInfo);
+        });
+           
       }
       
     });

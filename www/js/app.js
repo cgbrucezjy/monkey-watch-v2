@@ -34,7 +34,8 @@
 		var viewsPrefix = 'views/';
 
 		// For any unmatched url, send to /
-		$urlRouterProvider.otherwise("/")
+		$urlRouterProvider
+		.otherwise("/")
 
 		$stateProvider
 			// you can set this to no template if you just want to use the html in the page
@@ -48,7 +49,7 @@
 			})
 			.state('room', {
 				cache: false,
-				url: "/room",
+				url: "/room/:id",
 				templateUrl: viewsPrefix + "room.html",
 				controller : "roomController",
 				data: {
@@ -57,7 +58,8 @@
 				params: {
 					'roomName': '',
 					'password':'',
-					'vid':''
+					'vid':'',
+					'roomId':''
             	} 
 			})
 

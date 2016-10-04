@@ -1,12 +1,27 @@
 angular.module('roomController', [])
-	.controller('roomController', function($scope, $state,$stateParams,YT_event,$firebaseArray,$timeout) {
+	.controller('roomController', function($scope, $state,$location,$stateParams,YT_event,$firebaseArray,$timeout) {
+
+  
+  
+  console.log(' id '+$stateParams.id);
+  if($stateParams.id=="")
+  {
+    var ref = firebase.database().ref().child($stateParams.roomId);
+    $scope.shareLink=$location.$$absUrl+$stateParams.roomId;
+  }
+  else
+  {
+    var ref = firebase.database().ref().child($stateParams.id);
+    $scope.shareLink=$location.$$absUrl;
+  }
+
 var first={seek:1,start:1,pause:1,load:1};
 $scope.min_text='movetxt';
 $scope.videoc='video';
-$scope.roomName=$stateParams.roomName;
 
-console.log($stateParams,$scope.roomName);
-$scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/chat"));
+
+console.log($stateParams);
+$scope.chat=$firebaseArray(ref.child("/chat"));
  //initial settings
   $scope.yt = {
     width: 600, 
@@ -32,7 +47,7 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
   });
 
 
-  var ref = firebase.database().ref().child($scope.roomName);
+ 
   ref.child('background').once('value',function(snap){
     console.log(snap.val());
     document.body.className =' '+snap.val();
@@ -196,4 +211,6 @@ $scope.chat=$firebaseArray(firebase.database().ref().child($scope.roomName+"/cha
     $state.go('home');
   };
 
+}).constant('config',{
+  'baseUrl':''
 });

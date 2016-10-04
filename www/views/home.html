@@ -197,7 +197,7 @@
             <object class="images" data="{{tile.imgsrc}}" type="image/png">
                 <img class="images" src="http://www.clker.com/cliparts/b/d/f/U/p/W/sad-monkey-face-hi.png" />
             </object>
-        <md-grid-tile-footer><h3>Room Name: {{tile.$id}}</h3></md-grid-tile-footer>
+        <md-grid-tile-footer><h3>Room Name: {{tile.roomName || tile.$id}}</h3></md-grid-tile-footer>
         </md-grid-tile>
     </md-grid-list>
 

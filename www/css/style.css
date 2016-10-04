@@ -11,7 +11,7 @@
 .video {
   position: relative;
   overflow: hidden;
-  height: 600px;
+  height: 584px;
   text-align: right;
 }
 #progressBar {
@@ -219,7 +219,44 @@ body {
   height: 50% !important;
   width: 50% !important;
 }
+/* ----------- */
 .tcenter {
   padding: 10px;
   text-align: center;
+}
+.collinFab {
+  position: fixed !important;
+  font-size: 2em;
+}
+.collinRow {
+  display: box;
+  display: -webkit-box;
+  overflow-x: scroll;
+}
+.collinRow-flex {
+  display: flex;
+}
+.collinCol-30 {
+  width: 20%;
+}
+.collinCol-30 ul {
+  list-style-type: none;
+}
+.roomInfo {
+  text-align: center;
+  width: 33% !important;
+}
+.dont-display {
+  display: none;
+}
+.videoControls {
+  text-align: center;
+}
+.videoControls span {
+  display: block;
+}
+.faux-card {
+  background-color: white;
+  width: 800px;
+  margin: 0 auto;
 }
