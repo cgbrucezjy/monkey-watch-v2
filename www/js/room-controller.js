@@ -58,8 +58,9 @@ $scope.chat=$firebaseArray(ref.child("/chat"));
     ref.update({"seek":seek}); 
     
   };
-
+$scope.isPlaying = false;
   $scope.pause=function(){
+      $scope.isPlaying = false;
     $scope.pauses=!$scope.pauses;
     console.log($scope.pauses);
     ref.child("pause").once("value", function(data) {
@@ -70,6 +71,7 @@ $scope.chat=$firebaseArray(ref.child("/chat"));
   };
   $scope.plays=true;
   $scope.play=function(){
+      $scope.isPlaying = true;
     $scope.plays=!$scope.plays;
     ref.child("play").once("value", function(data) {
       ref.update({"play":!data.val()}); 
