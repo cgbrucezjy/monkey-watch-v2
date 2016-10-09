@@ -26,12 +26,13 @@
         <button ng-click="loadVideo(yt.videoid)">Load new Video</button>
         <br />
 
-        <button ng-click="restart()">Play From Start</button>
+
         <button ng-click="play()">Play</button>
         <button ng-click="pause()">Pause</button>
         <button ng-click="sendControlEvent(YT_event.STOP)">Stop</button>
         <button ng-click="maxScreen()">Maximium</button>
         <button ng-click="goBack()">back</button>
         <p>ShareLink: {{shareLink}}</p>
+        <p ng-repeat='user in roomUsers'>name: {{user.username}}</p>
     </div>
 </div>

@@ -1,7 +1,7 @@
 angular.module('roomController', [])
-	.controller('roomController', function($scope, $state,$location,$stateParams,YT_event,$firebaseArray,$timeout) {
+	.controller('roomController', function($scope, $state,$location,$window,$stateParams,YT_event,$firebaseArray,$timeout) {
 
-  
+  $scope.currUser={username:'temp user'};
   
   console.log(' id '+$stateParams.id);
   if($stateParams.id=="")
@@ -15,13 +15,19 @@ angular.module('roomController', [])
     $scope.shareLink=$location.$$absUrl;
   }
 
+  $scope.roomUsers=$firebaseArray(ref.child("roomUsers"));
+  $scope.roomUsers.$add($scope.currUser).then(function(r) {
+    $scope.userId = r.key;
+  });
+
+
 var first={seek:1,start:1,pause:1,load:1};
 $scope.min_text='movetxt';
 $scope.videoc='video';
 
 
 console.log($stateParams);
-$scope.chat=$firebaseArray(ref.child("/chat"));
+$scope.chat=$firebaseArray(ref.child("chat"));
  //initial settings
   $scope.yt = {
     width: 600, 
@@ -208,10 +214,30 @@ $scope.isPlaying = false;
 
     c[0].parentElement.removeChild(c[0]); 
     c[0].parentElement.removeChild(c[0]); 
-        
+    $scope.onExit();
         
     $state.go('home');
   };
+  $scope.onExit = function() {
+    var index=$scope.roomUsers.$indexFor($scope.userId);
+    if(index!=-1)
+    {
+      $scope.roomUsers.$remove(index);
+    }
+    
+  };
+  $scope.$on('$locationChangeStart', function (event, next, current) {
+                    console.log('current '+current);
+                    if (current.match("\/room") && next.indexOf("\/room")<0) {
+                      var c=document.getElementsByTagName('script');
+
+                      c[0].parentElement.removeChild(c[0]); 
+                      c[0].parentElement.removeChild(c[0]); 
+                      $scope.onExit();
+                    }
+                });
+  $window.onbeforeunload =  $scope.onExit;
+
 
 }).constant('config',{
   'baseUrl':''
