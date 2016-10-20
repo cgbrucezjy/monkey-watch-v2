@@ -26,11 +26,11 @@ angular.module('homeController', [])
         $mdDialog.show(confirm).then(function(pass) {
             console.log(rName);
             var roomInfo={'roomName':rName,'password':pass}
-              $scope.enterRoom(roomInfo);
+              $scope.enterRoom(roomInfo,false);
         }, function() {
             console.log(rName);
             var roomInfo={'roomName':rName,'password':''}
-            $scope.enterRoom(roomInfo);
+            $scope.enterRoom(roomInfo,false);
            
         });       
     }, function() {
@@ -41,15 +41,14 @@ angular.module('homeController', [])
 $scope.enterRoomNum=function(tile){
     console.log(tile.$id);
     var roomInfo={'roomId':tile.$id,'roomName':tile.roomName,'password':'',vid:tile.load};
-    $scope.enterRoom(roomInfo);
+    $scope.enterRoom(roomInfo,true);
 }
-$scope.enterRoom=function(roomInfo){
+$scope.enterRoom=function(roomInfo,exist){
     
     
     // $templateCache.removeAll();
     // console.log($templateCache.get("views/room.html"));
-    ref.child(roomInfo.roomId).once("value", function(data) {
-      if(data.exists())
+      if(exist)
       {
             $state.go('room',roomInfo);      
       }
@@ -60,13 +59,12 @@ $scope.enterRoom=function(roomInfo){
           console.log(' ',it);
         $scope.tiles.$add({roomName:roomInfo.roomName,row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"}).then(function(ref) {
             var id = ref.key;
-            roomInfo.roomName=id;
+            roomInfo.id=id;
             $state.go("room",roomInfo);
         });
            
       }
-      
-    });
+
     
 };
 

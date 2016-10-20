@@ -48,3 +48,5 @@ Temporary Items
 /node_modules
 /www/css
 /www/lib
+www/css/style.css
+www/css/style.min.css
