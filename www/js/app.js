@@ -59,11 +59,40 @@
 					'roomName': '',
 					'password':'',
 					'vid':'',
-					'roomId':''
+					'roomId':'',
+					'customConfig':''
             	} 
 			})
 
 	})
+	.service('getCustomConfigService',['$http'],
+		function($http){
+			function getCustomConfig()
+			{
+				console.log('getCustomConfig');
+				var req = {
+					method: 'POST',
+					url: 'http://localhost:3001/rest/xirsys',
+					data: {
+								ident: "cgbrucezjy",
+								secret: "98599a1c-b5aa-11e6-96fc-3ecad2f849ae",
+								domain: "www.sggo.com",
+								application: "monkey-watch",
+								room: "default",
+								secure: 1
+							}
+					}
+
+					return $http(req).then(function(resp){
+						console.log(resp);
+						return resp.d;
+					}, function(){});
+			}
+
+			 return {
+				getCustomConfig: getCustomConfig
+			};
+		})
 	.directive('updateTitle', ['$rootScope', '$timeout',
 		function($rootScope, $timeout) {
 			return {

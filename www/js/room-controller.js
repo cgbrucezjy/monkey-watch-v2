@@ -1,9 +1,8 @@
 angular.module('roomController', [])
-	.controller('roomController', function($scope, $state,$location,$window,$stateParams,YT_event,$firebaseArray,$timeout) {
-
-  $scope.currUser={username:'temp user'};
-  
+	.controller('roomController', function($scope, $state,$location,$window,$http,$stateParams,YT_event,$firebaseArray,$timeout) {
   console.log(' id '+$stateParams.id);
+  var customConfig=$stateParams.customConfig;
+  console.log(customConfig);
   if($stateParams.id=="")
   {
     var ref = firebase.database().ref().child($stateParams.roomId);
@@ -15,10 +14,62 @@ angular.module('roomController', [])
     $scope.shareLink=$location.$$absUrl;
   }
 
+  //$scope.currUser={username:'temp user'};
   $scope.roomUsers=$firebaseArray(ref.child("roomUsers"));
-  $scope.roomUsers.$add($scope.currUser).then(function(r) {
-    $scope.userId = r.key;
+  $scope.peer = new Peer({　host:'peerjs-server-sggo.herokuapp.com', secure:true, port:443, key: 'peerjs', debug: 3})
+  $scope.peer.on('open', function(id) {
+    console.log('pid:',id)
+    $scope.currUser={username:'temp user',pid:id};
+    $scope.roomUsers.$add($scope.currUser).then(function(r) {
+      $scope.userId = r.key;
+    });
   });
+      navigator.getUserMedia({audio: true, video: true}, function(stream){
+        // Set your video displays
+         document.getElementById('myvids').src=window.URL.createObjectURL(stream);
+        window.localStream = stream;
+      }, function(){ $('#step1-error').show(); });
+
+    function step3 (call) {
+      // Hang up on an existing call if present
+      if (window.existingCall) {
+        window.existingCall.close();
+      }
+      // Wait for stream on the call, then set peer video display
+      call.on('stream', function(stream){
+        document.getElementById('remotevids').src=window.URL.createObjectURL(stream);
+      });
+      // UI stuff
+      window.existingCall = call;
+    }
+  
+    $scope.peer.on('call', function(call){
+      console.log("got called")
+      // Answer the call automatically (instead of prompting user) for demo purposes
+      call.answer(window.localStream);
+      step3(call);
+    });
+    $scope.connect=function(pid)
+    { 
+      console.log(pid);
+      $scope.call = $scope.peer.call(pid, window.localStream);
+      step3($scope.call);
+    }
+  // navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+
+  
+  // $scope.peer.on('call', function(call) {
+  //   navigator.getUserMedia({video: true, audio: false}, function(stream) {
+  //     call.answer(stream); // Answer the call with an A/V stream.
+  //     call.on('stream', function(remoteStream) {
+  //       var video = document.getElementById('remotevids');
+  //       video.src = window.URL.createObjectURL(stream);
+  //     });
+  //   }, function(err) {
+  //     console.log('Failed to get local stream' ,err);
+  //   });
+  // });
+
 
 
 var first={seek:1,start:1,pause:1,load:1};
@@ -66,21 +117,20 @@ $scope.chat=$firebaseArray(ref.child("chat"));
   };
 $scope.isPlaying = false;
   $scope.pause=function(){
-      $scope.isPlaying = false;
-    $scope.pauses=!$scope.pauses;
-    console.log($scope.pauses);
+      
     ref.child("pause").once("value", function(data) {
       ref.update({"pause":!data.val()}); 
+      console.log('is playing '+$scope.isPlaying);
     });
     
     
   };
-  $scope.plays=true;
+
   $scope.play=function(){
-      $scope.isPlaying = true;
-    $scope.plays=!$scope.plays;
+      
     ref.child("play").once("value", function(data) {
       ref.update({"play":!data.val()}); 
+      
     });
     
   };
@@ -109,26 +159,21 @@ $scope.isPlaying = false;
         }
 
     });  
-  ref.child("pause").on('value', function(dataSnapshot) {
-        if(first.pause!=0)
-        {
-          console.log("changed"+dataSnapshot.val());
-          $scope.sendControlEvent($scope.YT_event.PAUSE);
-        }
-        else{
-          first.pause=first.pause+1;
-        }  
-    });
+
   ref.child("play").on('value', function(dataSnapshot) {
-        if(first.start!=0)
-        {
+          $scope.isPlaying = true;
           console.log("changed"+dataSnapshot.val());
           $scope.sendControlEvent($scope.YT_event.PLAY);
-        }
-        else{
-          first.start=first.start+1;
-        }  
+  
     });
+
+  ref.child("pause").on('value', function(dataSnapshot) {
+          $scope.isPlaying = false;
+          console.log("changed"+dataSnapshot.val());
+          $scope.sendControlEvent($scope.YT_event.PAUSE);
+ 
+    });
+
   ref.child("chat").on('child_added', function(dataSnapshot) {
 
         $timeout(function () {
@@ -183,8 +228,8 @@ $scope.isPlaying = false;
     progress.style.position = "relative";
     progress.style.left = '';
     progress.style.bottom = '';
-
     progress.style.width=minWdith+"px";
+    
     var chatbox = document.getElementById('chat');
     chatbox.style.position = "relative";
     chatbox.style.left = '';
@@ -195,9 +240,13 @@ $scope.isPlaying = false;
     $scope.sendControlEvent(YT_event.minScreen);   
   }
 
-
+  var timedelay = 1;
   $scope.sendMessageByEnter=function($event){
-    console.log($event.keyCode);
+    $('#progressBar').fadeIn();
+    $('#chat').fadeIn();
+        timedelay = 1;
+        clearInterval(_delay);
+        _delay = setInterval(delayCheck, 1000);
     if($event.keyCode==13)
     {
       var text= $scope.message;
@@ -236,9 +285,43 @@ $scope.isPlaying = false;
                       $scope.onExit();
                     }
                 });
+
+
+        
+
+
   $window.onbeforeunload =  $scope.onExit;
+    console.log("script");
+    
+    function delayCheck()
+    {
+        if(timedelay == 5 && $scope.isMax)
+        {
+          $('#progressBar').fadeOut();
+          $('#chat').fadeOut();
+
+            timedelay = 1;
+        }
+        timedelay = timedelay+1;
+    }
+    
+    $(document).mousemove(function() {
+        $('#progressBar').fadeIn();
+        $('#chat').fadeIn();
+        
+        
+        timedelay = 1;
+        clearInterval(_delay);
+        _delay = setInterval(delayCheck, 1000);
+    });
+
+
+    // page loads starts delay timer
+    _delay = setInterval(delayCheck, 1000);
+
 
 
 }).constant('config',{
   'baseUrl':''
 });
+

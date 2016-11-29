@@ -58,6 +58,7 @@ angular.module('directives', [])
 
                         var playerTimeDifference = (playerCurrentTime / playerTotalTime)*100;
                         document.getElementById("progressBar").value=playerTimeDifference;
+
                         //console.log(playerTimeDifference);
                     }, 1000);
 

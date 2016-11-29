@@ -1,5 +1,5 @@
 angular.module('homeController', [])
-	.controller('homeController', function($scope, $state,YT_event,$firebaseArray,$timeout,$mdDialog,$templateCache) {
+	.controller('homeController', function($scope, $state,YT_event,$firebaseArray,$http,$timeout,$mdDialog,$templateCache) {
         var ref = firebase.database().ref()
     $scope.createRoom=function(ev) {
     // Appending dialog to document.body to cover sidenav in docs app
@@ -48,22 +48,45 @@ $scope.enterRoom=function(roomInfo,exist){
     
     // $templateCache.removeAll();
     // console.log($templateCache.get("views/room.html"));
-      if(exist)
-      {
-            $state.go('room',roomInfo);      
+
+
+    console.log('getCustomConfig');
+    var req = {
+      method: 'POST',
+      url: 'https://limitless-ridge-46428.herokuapp.com/rest/xirsys',
+      //url: 'https://service.xirsys.com/ice',
+      data: {
+            ident: "cgbrucezjy",
+            secret: "98599a1c-b5aa-11e6-96fc-3ecad2f849ae",
+            domain: "www.sggo.com",
+            application: "monkey-watch",
+            room: "default",
+            secure: 1
+          }
       }
-      else
-      {
-          var ran=Math.floor((Math.random() * 15) + 1);
-          var it=$scope.getRoomSetting(ran);
-          console.log(' ',it);
-        $scope.tiles.$add({roomName:roomInfo.roomName,row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"}).then(function(ref) {
-            var id = ref.key;
-            roomInfo.id=id;
-            $state.go("room",roomInfo);
-        });
-           
-      }
+
+      $http(req).then(function(resp){
+        console.log(resp);
+        roomInfo.customConfig=resp.data.d
+        if(exist)
+        {
+              $state.go('room',roomInfo);      
+        }
+        else
+        {
+            var ran=Math.floor((Math.random() * 15) + 1);
+            var it=$scope.getRoomSetting(ran);
+            console.log(' ',it);
+          $scope.tiles.$add({roomName:roomInfo.roomName,row:it.row,col:it.col,background:it.background,imgsrc:"xxx.jpg"}).then(function(ref) {
+              var id = ref.key;
+              roomInfo.id=id;
+              $state.go("room",roomInfo);
+          });
+            
+        }
+      }, function(){});
+
+
 
     
 };
