@@ -40,7 +40,7 @@
             <div class="br">
             <p>ShareLink: {{shareLink}}</p>
             </div>
-        Videoid:<input type="text" id="vid" ng-model="yt.videoid">
+        Video link:<input type="text" id="vid" ng-model="yt.videoid">
         <button ng-click="loadVideo(yt.videoid)">Load new Video</button>
 
 <!--
@@ -55,13 +55,23 @@
 
 -->
             <div class="users">
-                <video id="myvids" class="stream" autoplay></video>
-                <video id="remotevids" class="stream" autoplay></video>
-            </div>      
-            <div ng-repeat='user in roomUsers'>
-                <p>name: {{user.username}}</p>
-                <br>
-                <p>pid: {{user.pid}}</p>
+                <div class="stream">
+                    <video id="myvids" muted="true"  autoplay></video>
+                </div>
+                <div class="stream">
+                    <video id="remotevids"  autoplay></video>
+                    <input type="checkbox" ng-click="mute()" model="un_mute" id="un-mute">
+                    <label for="un-mute" class="unmute">
+                        <img class='mute-img' src="http://upload.wikimedia.org/wikipedia/commons/3/3f/Mute_Icon.svg" alt="Mute_Icon.svg" title="Mute icon">
+                    </label>
+                    <label for="un-mute" class="mute">
+                        <img class='mute-img' src="http://upload.wikimedia.org/wikipedia/commons/2/21/Speaker_Icon.svg" alt="Speaker_Icon.svg" title="Unmute/speaker icon">
+                    </label>
+                </div>
+            </div>    
+            <p>Current Users: </p>  
+            <div ng-repeat='user in roomUsers' layout="row" layout-align="start center">
+                <p >name: {{user.uname}}</p>
                 <button ng-click="connect(user.pid)" ng-hide="user.pid==currUser.pid">connect</button> 
             </div>
 

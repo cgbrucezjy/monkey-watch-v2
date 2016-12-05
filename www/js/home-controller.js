@@ -15,23 +15,19 @@ angular.module('homeController', [])
 
     $mdDialog.show(confirm).then(function(rName) {
         confirm = $mdDialog.prompt()
-        .title('Password?')
-        .textContent('Do you need password')
-        .placeholder('password')
-        .ariaLabel('Rome password')
-        .initialValue('')
+        .title('Name')
+        .textContent('Enter your display name')
+        .placeholder('hexor')
+        .ariaLabel('User Name')
+        .initialValue('hexor')
         .targetEvent(ev)
         .ok('Create')
-        .cancel('Skip');     
-        $mdDialog.show(confirm).then(function(pass) {
+        .cancel('Cancel');     
+        $mdDialog.show(confirm).then(function(uname) {
             console.log(rName);
-            var roomInfo={'roomName':rName,'password':pass}
+            var roomInfo={'roomName':rName,'uname':uname}
               $scope.enterRoom(roomInfo,false);
         }, function() {
-            console.log(rName);
-            var roomInfo={'roomName':rName,'password':''}
-            $scope.enterRoom(roomInfo,false);
-           
         });       
     }, function() {
      
@@ -70,7 +66,21 @@ $scope.enterRoom=function(roomInfo,exist){
         roomInfo.customConfig=resp.data.d
         if(exist)
         {
-              $state.go('room',roomInfo);      
+          var unameConf = $mdDialog.prompt()
+            .title('Name')
+            .textContent('Enter your display name')
+            .placeholder('hexor')
+            .ariaLabel('User Name')
+            .initialValue('hexor')
+            .ok('Enter')
+            .cancel('Cancel');     
+            $mdDialog.show(unameConf).then(function(uname) {
+              console.log(uname);
+                roomInfo.uname=uname;
+                $state.go('room',roomInfo); 
+            }, function() {
+            });  
+                   
         }
         else
         {

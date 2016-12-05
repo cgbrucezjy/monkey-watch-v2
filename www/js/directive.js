@@ -110,8 +110,11 @@ angular.module('directives', [])
       });
    
      scope.$on(YT_event.loadVideo, function () {
-          console.log(document.getElementById("vid").value);
-            player.cueVideoById(document.getElementById("vid").value);
+       var url=document.getElementById("vid").value;
+       var vid=url.substring(url.indexOf('v=')+2);
+          console.log(vid);
+
+            player.cueVideoById(vid);
       });
 
       scope.$on(YT_event.STOP, function () {

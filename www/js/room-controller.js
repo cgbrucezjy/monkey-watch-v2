@@ -19,7 +19,7 @@ angular.module('roomController', [])
   $scope.peer = new Peer({　host:'peerjs-server-sggo.herokuapp.com', secure:true, port:443, key: 'peerjs', debug: 3})
   $scope.peer.on('open', function(id) {
     console.log('pid:',id)
-    $scope.currUser={username:'temp user',pid:id};
+    $scope.currUser={uname:$stateParams.uname,pid:id};
     $scope.roomUsers.$add($scope.currUser).then(function(r) {
       $scope.userId = r.key;
     });
@@ -28,7 +28,7 @@ angular.module('roomController', [])
         // Set your video displays
          document.getElementById('myvids').src=window.URL.createObjectURL(stream);
         window.localStream = stream;
-      }, function(){ $('#step1-error').show(); });
+      }, function(){ console.log("error") });
 
     function step3 (call) {
       // Hang up on an existing call if present
@@ -70,7 +70,11 @@ angular.module('roomController', [])
   //   });
   // });
 
-
+$scope.mute=function(){
+  $scope.un_mute=!$scope.un_mute;
+  var audioElm = document.getElementById('remotevids'); audioElm.muted =$scope.un_mute;
+  console.log(audioElm.muted);
+}
 
 var first={seek:1,start:1,pause:1,load:1};
 $scope.min_text='movetxt';
@@ -83,7 +87,7 @@ $scope.chat=$firebaseArray(ref.child("chat"));
   $scope.yt = {
     width: 600, 
     height: 480, 
-    videoid: $stateParams.vid || "21T9yd2Um0E",
+    videoid: $stateParams.vid.substring($stateParams.vid.indexOf('v=')+2) || "21T9yd2Um0E",
     playerStatus: "NOT PLAYING"
   };
 
@@ -150,9 +154,13 @@ $scope.isPlaying = false;
         console.log("changed"+dataSnapshot.val());
         if(first.load!=0)
         {
-          document.getElementById("vid").value=dataSnapshot.val();
+          var url=dataSnapshot.val();
+          var vid=url.substring(url.indexOf('v=')+2);
+          document.getElementById("vid").value=url;
+           
+      
           $scope.sendControlEvent($scope.YT_event.loadVideo);
-          ref.update({'imgsrc':'//img.youtube.com/vi/'+dataSnapshot.val()+'/0.jpg'});
+          ref.update({'imgsrc':'//img.youtube.com/vi/'+vid+'/0.jpg'});
         }
         else{
           first.load=first.see+1;
@@ -256,6 +264,7 @@ $scope.isPlaying = false;
 
   $scope.loadVideo=function(vid){
     console.log(vid);
+
     ref.update({"load":vid}); 
   };
   $scope.goBack=function(){

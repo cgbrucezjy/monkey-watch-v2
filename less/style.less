@@ -108,12 +108,44 @@ margin-top: 1px;
     height:20%;
     width:50%;
 }
+input#un-mute {
+  display: none;
+}
 
+.unmute img {
+  display: none;
+}
+
+input#un-mute:checked ~ .unmute img {
+  display: initial;
+}
+
+input#un-mute:checked ~ .mute img {
+  display: none;
+    height: 10%;
+    width:10%;
+}
 .stream{
     position:relative;
     float:right;
     height:100%;
     width:40%;
+}
+video#myvids{
+    height: 100%;
+    width:100%;
+}
+video#remotevids{
+    height: 100%;
+    width:100%;
+}
+
+img.mute-img{
+    position:absolute;
+    bottom:0;
+    right:15px;
+    height: 15%;
+    width:15%;
 }
 body{
     background-color:rgba(0, 0, 0, 0);
